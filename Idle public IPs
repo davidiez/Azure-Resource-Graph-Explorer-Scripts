@@ -1,0 +1,7 @@
+Resources
+| where type =~ 'microsoft.network/publicipaddresses'
+| extend ipAddress = tostring(properties.ipAddress)
+| extend allocationMethod = tostring(properties.publicIPAllocationMethod)
+| extend associatedResource = tostring(properties.ipConfiguration.id)
+| where isempty(associatedResource)
+| project name, ipAddress, allocationMethod, location, subscriptionId
