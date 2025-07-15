@@ -1,0 +1,5 @@
+Resources
+| where type =~ "microsoft.compute/virtualmachines"
+| where properties.hardwareProfile.vmSize != ""
+| where properties.extended.instanceView.powerState.code =~ "VM deallocated" or properties.extended.instanceView.powerState.code =~ "VM stopped"
+| project name, resourceGroup, subscriptionId, properties.extended.instanceView.powerState.code
