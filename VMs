@@ -1,0 +1,15 @@
+resources
+| where type == "microsoft.compute/virtualmachines"
+| project 
+    name,
+    resourceGroup,
+    subscriptionId,
+    location,
+    vmSize = properties.hardwareProfile.vmSize,
+    osType = properties.storageProfile.osDisk.osType,
+    timeCreated = properties.timeCreated
+| join kind=leftouter (
+    resourcecontainers
+    | where type == "microsoft.resources/subscriptions"
+    | project subscriptionId, subscriptionName = name
+) on subscriptionId
