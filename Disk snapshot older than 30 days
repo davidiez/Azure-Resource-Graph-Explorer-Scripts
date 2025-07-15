@@ -1,0 +1,7 @@
+resources
+| where type == 'microsoft.compute/snapshots'
+| extend TimeCreated = properties.timeCreated
+| extend resourceGroup = strcat("/subscriptions/",subscriptionId,"/resourceGroups/",resourceGroup)
+| where TimeCreated < ago(30d)
+| order by id asc 
+| project id, resourceGroup, location, TimeCreated, subscriptionId
