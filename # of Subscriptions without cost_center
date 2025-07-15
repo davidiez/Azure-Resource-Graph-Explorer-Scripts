@@ -1,0 +1,5 @@
+resourcecontainers
+| where type == 'microsoft.resources/subscriptions'
+| where properties.state == 'Enabled'
+| where tags['cost_center'] == ''
+| project subscriptionId, name, cost_center = tags['cost_center']
