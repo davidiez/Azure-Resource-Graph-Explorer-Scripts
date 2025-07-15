@@ -1,0 +1,2 @@
+resources
+| where location !in~ ("norwayeast", "southeastasia", "global")
