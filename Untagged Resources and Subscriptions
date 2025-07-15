@@ -1,0 +1,8 @@
+// To Find Subscription Missing Tags
+resourcecontainers
+| where type == "microsoft.resources/subscriptions"
+    and isnull(tags) or tostring(tags) == '[]'
+
+// To Find Resources Missing Tags
+resources
+| where isnull(tags) or tostring(tags) == '[]'
