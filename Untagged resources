@@ -1,0 +1,12 @@
+// To Find Resources Missing Tags
+resourcecontainers
+| where type =~ "microsoft.resources/subscriptions"
+| project subscriptionId, subscriptionName = name
+| join kind=inner (
+    resources
+    | where isnull(tags) or tostring(tags) == '[]'
+    | project id, name, subscriptionId, resourceGroup, type, location, properties
+) on subscriptionId
+| project subscriptionName, subscriptionId, name, resourceGroup, type, id
+
+
