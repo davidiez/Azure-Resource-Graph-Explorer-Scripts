@@ -1,0 +1,22 @@
+resources
+| where type =~ 'Microsoft.Storage/StorageAccounts'
+    and kind !='StorageV2'
+    and kind !='FileStorage'
+| extend
+    StorageAccountName = name,
+    SAKind = kind,
+    AccessTier = tostring(properties.accessTier),
+    SKUName = sku.name,
+    SKUTier = sku.tier,
+    Location = location
+| order by id asc
+| project
+    id,
+    StorageAccountName,
+    SKUName,
+    SKUTier,
+    SAKind,
+    AccessTier,
+    resourceGroup,
+    Location,
+    subscriptionId
