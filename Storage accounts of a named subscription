@@ -1,6 +1,6 @@
 resources
 | where type =~ 'Microsoft.Storage/StorageAccounts'
-| where subscriptionId == "YourID"
+| where subscriptionId == "your-subscription-id-here"
 | extend
     StorageAccountName = name,
     SAKind = kind,
