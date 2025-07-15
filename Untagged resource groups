@@ -1,0 +1,4 @@
+// To Find Resource Groups Missing Tags
+resourcecontainers
+| where type == "microsoft.resources/subscriptions/resourcegroups"
+    and isnull(tags) or tostring(tags) == '[]'
