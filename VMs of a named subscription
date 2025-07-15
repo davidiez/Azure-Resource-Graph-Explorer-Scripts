@@ -1,0 +1,7 @@
+resources
+| where type == "microsoft.compute/virtualmachines"
+| where subscriptionId == "your-subscription-id-here"
+| extend properties = parse_json(properties)
+| project name, location, resourceGroup, subscriptionId,
+          vmSize = properties.hardwareProfile.vmSize
+
