@@ -1,0 +1,19 @@
+// To Find Subscriptions and its parent management group
+resourcecontainers
+| where type =~ 'microsoft.resources/subscriptions'
+| extend mgChain = properties.managementGroupAncestorsChain
+| project
+    subscriptionName = name,
+    subscriptionId,
+    parentManagementGroupId = tostring(mgChain[0].name),
+    parentManagementGroupDisplayName = tostring(mgChain[0].displayName),
+    parentManagementGroupResourceId = strcat('/providers/Microsoft.Management/managementGroups/', tostring(mgChain[0].name))
+| order by subscriptionName asc
+
+
+
+
+
+
+
+
