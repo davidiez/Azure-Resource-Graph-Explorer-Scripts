@@ -1,0 +1,17 @@
+// Subscriptions missing the 'cost_center' tag or with it blank
+resourcecontainers
+| where type == 'microsoft.resources/subscriptions'
+| extend cost_center = tostring(tags['cost_center'])
+| extend owner = tostring(tags['owner'])
+| where isnull(tags) or isempty(cost_center)
+// pull MG ancestors chain; index 0 = immediate parent
+| extend mgAncestors = properties.managementGroupAncestorsChain
+| extend mgId = tostring(mgAncestors[0].name)
+// join to management group objects to get a friendly display name
+| join kind=leftouter (
+    resourcecontainers
+    | where type == 'microsoft.management/managementgroups'
+    | project mgId = name, mgDisplayName = tostring(properties.displayName)
+) on mgId
+| project subscriptionId, name, id, cost_center, owner, mgId, mgDisplayName
+| order by subscriptionId asc
