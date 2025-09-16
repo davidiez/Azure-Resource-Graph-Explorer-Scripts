@@ -1,0 +1,5 @@
+resourcecontainers
+| where type == 'microsoft.resources/subscriptions'
+| extend ownerTag = tostring(tags['owner'])
+| project subscriptionId, subscriptionName = name, ownerTag
+| order by subscriptionName asc
