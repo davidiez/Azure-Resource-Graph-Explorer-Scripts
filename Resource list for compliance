@@ -1,7 +1,7 @@
 // Resource list for compliance
 resourcecontainers
 | where type =~ "microsoft.resources/subscriptions"
-| project subscriptionId, subscriptionName = name
+| project subscriptionId, subscriptionName = name, owner = tostring(tags['owner'])
 | join kind=inner (
     resources
     | project subscriptionId, resourceGroup, type, name, location, tags, id
@@ -9,4 +9,4 @@ resourcecontainers
     | extend hasTags = tagCount > 0
     | extend cost_center = tostring(tags['cost_center'])
 ) on subscriptionId
-| project subscriptionName, subscriptionId, name, resourceGroup, type, id, location, tags, tagCount, hasTags, cost_center
+| project subscriptionName, subscriptionId, owner, name, resourceGroup, type, id, location, tags, tagCount, hasTags, cost_center
