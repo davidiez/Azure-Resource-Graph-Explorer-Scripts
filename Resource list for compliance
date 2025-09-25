@@ -9,4 +9,5 @@ resourcecontainers
     | extend hasTags = tagCount > 0
     | extend cost_center = tostring(tags['cost_center'])
 ) on subscriptionId
-| project subscriptionName, subscriptionId, owner, name, resourceGroup, type, id, location, tags, tagCount, hasTags, cost_center
+| extend tags_json = tostring(tags)
+| project subscriptionName, subscriptionId, owner, name, resourceGroup, type, id, location, tags_json, tagCount, hasTags, cost_center
